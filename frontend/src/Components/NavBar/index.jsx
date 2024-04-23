@@ -3,23 +3,35 @@ import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 import { 
-  AppBar, 
+
   Container, 
   Toolbar, 
-  Typography, 
-  Button,
+  Typography,
   Box
 } from "@mui/material";
 
 const Navbar = (props) => {
   const { isAuthenticated, user, logout } = useAuth();
   return (
-    <AppBar position="static">
+    <div style={{
+      backgroundColor: "#AF5B5B",
+      height: "5em",
+      alignItems: "baseline",
+      justifyContent: "space-between",
+      width: "100%",
+      color: "F6F4F3"
+    }}>
       <Container>
         <Toolbar sx={{display: "flex", justifyContent: "space-between"}}>
           <Box sx={{display: "flex", alignItems: "center"}}>
             <NavLink to="/">
-              <Typography variant="h4" component="div" sx={{ flexGrow: 1, fontWeight: "500",color: "whitesmoke", fontFamily: "Roots" }}>
+              <Typography variant="h4" component="div" sx={{ 
+                flexGrow: 1, 
+                fontWeight: "500",
+                color: "F6F4F3", 
+                fontFamily: "Roots", 
+                textDecoration: "none" 
+              }}>
                 Pet Paradise
               </Typography>
             </NavLink>
@@ -30,10 +42,10 @@ const Navbar = (props) => {
           <>
             <Typography>Bienvenido {user.username}</Typography>
             <li>
-              <NavLink to="/tasks">New reservation</NavLink>
+              <NavLink to="/reservations/new">New reservation</NavLink>
             </li>
             <li>
-              <NavLink to="/add-task">My reservations</NavLink>
+              <NavLink to="/reservations">My reservations</NavLink>
             </li>
             <li>
               <NavLink to="/"  onClick={()=>
@@ -56,58 +68,8 @@ const Navbar = (props) => {
 
         </Toolbar>
       </Container>
-    </AppBar>
+    </div>
   );
 };
 
 export default Navbar;
-
-/*
-      <ul className="flex items-center gap-3 cursor-pointer">
-        <NavLink to="/">
-          <li className=" font-semibold text-2xl">NombreAPP</li>
-        </NavLink>
-
-        {isAuthenticated ? (
-          <>
-            <li>Bienvenido {user.username}</li>
-            <li>
-              <NavLink to="/tasks">Tareas</NavLink>
-            </li>
-            <li>
-              <NavLink to="/add-task">Nueva Tarea</NavLink>
-            </li>
-            <li>
-              <NavLink className=" text-red-500" to="/"  onClick={()=>
-                logout()
-              } >Cerrar sesión</NavLink>
-            </li>
-          </>
-          
-        ) : (
-          <>
-            <li>
-              <NavLink to="/login">Iniciar sesión</NavLink>
-            </li>
-            <li>
-              <NavLink to="/register">Registrarse</NavLink>
-            </li>
-          </>
-        )}
-        </ul>
-
-      
-
-      <ul className="flex items-center gap-3 cursor-pointer">
-        <li className=" text-black/60">micorreo@correo.com</li>
-        <li>
-          <NavLink to="/login">Iniciar sesión</NavLink>
-        </li>
-        <li>
-          <NavLink to="/register">Registrarse</NavLink>
-        </li>
-      </ul>
-    </AppBar>
-  );
-};
-*/

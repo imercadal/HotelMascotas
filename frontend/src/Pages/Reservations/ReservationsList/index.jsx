@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { usePets } from '../../../Context/PetsContext';
+import { useReservations } from '../../../Context/ReservationsContext';
 import { AuthContext } from '../../../Context/AuthContext';
 import Layout from '../../../Layout';
 import { useNavigate } from 'react-router-dom';
@@ -15,28 +15,28 @@ import {
 } from '@mui/material';
 
 
-const PetList = () => {
-    const { getAllPets, pets } = usePets();
+const ReservationList = () => {
+    const { getAllReservations, reservations } = useReservations();
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-            getAllPets();
+            getAllReservations();
         }, []);
 
-    if (pets.length === 0) return <h1>No hay mascotas</h1>;
+    if (reservations.length === 0) return <h1>No hay mascotas</h1>;
 
-    const goToEdit = (petId) => {
-        navigate(`/pets/${petId}/edit`);
+    const goToEdit = (reservationId) => {
+        navigate(`/reservations/${reservationId}/edit`);
     };
     
-    const goToDetails = (petId) => {
-            navigate(`/pets/${petId}`);
+    const goToDetails = (reservationId) => {
+            navigate(`/reservations/${reservationId}`);
     };
     
     return (
         <Layout>
-            <Typography variant='h2'>All Pets</Typography>
+            <Typography variant='h2'>All Reservations</Typography>
             <TableContainer sx={{
             alignItems: "center",
             justifyContent: "center"      
@@ -52,12 +52,12 @@ const PetList = () => {
                 </TableHead>
                 <TableBody>
 
-                    {pets.map((item, index) => {
+                    {reservations.map((item, index) => {
                     return (
                         <tr key={index}>
-                            <TableCell>{item.petName}</TableCell>
-                            <TableCell>{item.petType}</TableCell>
-                            <TableCell>{user(item.petOwnerId)?.username || 'Unknown'} </TableCell>
+                            <TableCell>{item.reservationName}</TableCell>
+                            <TableCell>{item.reservationType}</TableCell>
+                            <TableCell>{user(item.reservationOwnerId)?.username || 'Unknown'} </TableCell>
                             <TableCell>
                             <Button
                                 onClick={() => goToDetails(item._id)}
@@ -79,4 +79,4 @@ const PetList = () => {
     );
 };
 
-export default PetList;
+export default ReservationList;

@@ -16,6 +16,5 @@ const theme = createTheme({
     justifyContent: "center",
 });
 
-//#251351 russian violet
 
 export default theme;

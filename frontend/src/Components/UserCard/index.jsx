@@ -21,7 +21,12 @@ const Card = (props) => {
 
     return(
 
-    <React.Fragment>
+    <React.Fragment >
+        <Box sx={{ 
+            border: '5px solid', 
+            borderColor: '#F03A47', 
+            backgroundColor: "#F6F4F3",
+            borderRadius: "10px" }}>
         <CardContent>
             <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 {bull}{props.antetitulo}{bull}
@@ -43,6 +48,7 @@ const Card = (props) => {
             <Button variant='secondary' size="small" onClick={ props.onClick1 }>{ props.linkName1 }</Button>
             <Button variant='secondary' size="small" onClick={ props.onClick2 }>{ props.linkName2 }</Button>
         </CardActions>
+        </Box>
     </React.Fragment>
     );
 };

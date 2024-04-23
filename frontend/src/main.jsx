@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './Pages/App'
-import './index.css'
 
 //importando estilos MUI
 import CssBaseline from '@mui/material/CssBaseline';

@@ -3,6 +3,7 @@ import {
   registerRequest,
   loginRequest,
   verifyTokenRequet,
+  getUserByIdRequest
 } from "../Api/auth.js";
 
 import Cookies from "js-cookie";
@@ -49,6 +50,16 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove("token");
     setUser(null);
     setIsAuthenticated(false);
+  };
+
+  const getUserById = async (userId) => {
+    try {
+      const res = await getUserByIdRequest(userId);
+      return res.data; 
+    } catch (error) {
+      console.error("Error fetching user by ID:", error);
+      return null;
+    }
   };
 
   useEffect(() => {
@@ -100,6 +111,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         errors,
         logout,
+        getUserById
       }}
     >
       {children}

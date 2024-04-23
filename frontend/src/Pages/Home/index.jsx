@@ -21,11 +21,11 @@ const Home = (props) => {
   const { isAuthenticated, user } = useAuth();
 
   const editUser = () => {
-    navigate("/user/edit");
+    navigate("/edit");
   };
 
   const goToMyPets = () => {
-    navigate("/user/pets");
+    navigate("/pets/mypets");
   }
 
   return (

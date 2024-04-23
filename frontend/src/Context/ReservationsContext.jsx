@@ -52,8 +52,12 @@ export function ReservationProvider({ children }) {
     }
 
     const createReservation = async (reservation) => {
-        const res = await createReservationRequest(reservation);
-        console.log(res);
+        try{
+            const res = await createReservationRequest(reservation);
+            console.log(res);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const updateReservation = async (reservation) => {

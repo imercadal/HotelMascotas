@@ -5,7 +5,8 @@ import {
   profile,
   register,
   verifyToken,
-  getAllUsers
+  getAllUsers,
+  getUserById
 } from "../controllers/auth.controller.js"; // Importando los controladores de autenticación
 
 import { authRequired } from "../middlewares/validateToken.js"; // Importando el middleware para verificar el token
@@ -32,5 +33,7 @@ router.get("/profile", authRequired, profile); // Ruta para obtener el perfil de
 router.get("/verify", verifyToken); // Ruta para verificar el token
 
 router.get("/users", getAllUsers); // Ruta para obtener usuarios
+
+router.get("/users/:id", getUserById); // Ruta para obtener un usuario por ID
 
 export default router; // Exportando las rutas de autenticación

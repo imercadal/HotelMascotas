@@ -1,9 +1,9 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import PropTypes from "prop-types";
 
 import {
     createPetRequest,
-    getPetsRequest,
+    getAllPetsRequest,
     getPetRequest,
     getMyPetsRequest,
     updatePetRequest,
@@ -11,6 +11,17 @@ import {
 } from "../Api/pets";
 
 const PetContext = createContext();
+
+export const usePets = () => {
+
+    const context = useContext(PetContext);
+
+    if (!context) {
+        throw new Error("usePets must be used within a PetProvider");
+    }
+
+    return context;
+};
 
 export function PetProvider({ children }) {
     const [pets, setPets] = useState([]);
@@ -20,16 +31,16 @@ export function PetProvider({ children }) {
         console.log(res);
     };
 
-    const getPets = async () => {
+    const getAllPets = async () => {
         try {
-        const res = await getPetsRequest();
+        const res = await getAllPetsRequest();
         setPets(res.data);
         } catch (error) {
         console.error(error);
         }
     };
 
-    const getAllPets = async () => {
+    const getPet = async () => {
         try {
         const res = await getPetRequest();
         setPets(res.data);
@@ -47,10 +58,12 @@ export function PetProvider({ children }) {
         }
     };
 
-    const updatePet = async (id) => {
+    const updatePet = async (updatedPet) => {
         try {
-        const res = await updatePetRequest(id);
-        if (res.status === 200) setPets(pets.filter((pet) => pet._id !== id));
+        const res = await updatePetRequest(updatedPet._id, updatedPet);
+        if (res.status === 200){
+            setPets(prevPets => prevPets.map(pet => (pet._id === updatedPet._id ? updatedPet : pet)))
+        }
         } catch (error) {
         console.error(error);
         }
@@ -70,8 +83,8 @@ export function PetProvider({ children }) {
         value={{
             pets,
             createPet,
-            getPets,
             getAllPets,
+            getPet,
             getMyPets,
             updatePet,            
             deletePet,

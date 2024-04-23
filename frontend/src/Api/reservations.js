@@ -1,6 +1,6 @@
 import axios from "./axios";
 
-export const createReservationRequest = (reservation) => axios.post("/reservations", reservation);
+export const createReservationRequest = (reservation) => axios.post("/reservations/new", reservation);
 
 export const getAllReservationsRequest = () => axios.get("/reservations");
 

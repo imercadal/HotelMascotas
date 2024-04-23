@@ -2,7 +2,7 @@ import axios from "./axios";
 
 export const createPetRequest = (pet) => axios.post("/pets", pet);
 
-export const getPetsRequest = () => axios.get("/pets");
+export const getAllPetsRequest = () => axios.get("/pets");
 
 export const getPetRequest = (id) => axios.get(`/pets/${id}`);
 

@@ -1,4 +1,4 @@
-//Importanto hooks de react.
+//Importando hooks de react.
 import { useState, useEffect } from 'react';
 
 function useFetch(urlApi) {
