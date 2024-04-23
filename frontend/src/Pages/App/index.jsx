@@ -18,7 +18,8 @@ import ProfilePage from "../Profile";
 import PetList from "../Pets/PetList";
 import AddPet from "../Pets/AddPet";
 import MyPets from "../Pets/MyPets";
-import ReservationForm from "../Reservations/ReservationForm/index.jsx";
+import ReservationForm from "../Reservations/ReservationForm";
+import MyReservations from "../Reservations/MyReservations";
 
 //Importando los componentes.
 import NavBar from "../../Components/NavBar";
@@ -45,6 +46,7 @@ const App = () => {
                 <Route path="/pets/new" element={<AddPet />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/reservations/new" element={<ReservationForm />} />
+                <Route path="/reservations" element={<MyReservations />} />
               </Route>
 
             </Routes>
