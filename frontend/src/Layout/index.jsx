@@ -16,11 +16,11 @@ const Layout = ({ children }) => {
             <NavBar/>
             <Container maxWidth="100%" style={{
                 backgroundColor: "F6F4F3",
-                height: "30em", 
                 display: "flex",
                 flexDirection: "column", 
                 alignItems: "center", 
-                justifyContent: "center"
+                justifyContent: "center",
+                marginTop: "1em",
             }}>
                 {children}
             </Container>

@@ -21,17 +21,14 @@ import MyPets from "../Pets/MyPets";
 import ReservationForm from "../Reservations/ReservationForm";
 import MyReservations from "../Reservations/MyReservations";
 
-//Importando los componentes.
-import NavBar from "../../Components/NavBar";
-
 //Importando protección de rutas.
 import ProtectedRoute from "../../Components/ProtectedRoute/index.jsx";
 
 const App = () => {
   return (
     <ReservationProvider>
-    <PetProvider>
     <AuthProvider>
+    <PetProvider>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -50,10 +47,9 @@ const App = () => {
               </Route>
 
             </Routes>
-            <NavBar />
           </BrowserRouter>
-    </AuthProvider>
     </PetProvider>
+    </AuthProvider>
     </ReservationProvider>
   );
 };

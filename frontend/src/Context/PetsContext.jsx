@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { AuthContext } from "./AuthContext";
 import PropTypes from "prop-types";
 
 import {
@@ -25,10 +26,17 @@ export const usePets = () => {
 
 export function PetProvider({ children }) {
     const [pets, setPets] = useState([]);
+    const { user } = useContext(AuthContext);
 
     const createPet = async (pet) => {
-        const res = await createPetRequest(pet);
-        console.log(res);
+        try {
+            const petWithOwner = { ...pet, petOwner: user._id};
+            const res = await createPetRequest(petWithOwner);
+            console.log(res);
+            getAllPets();
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const getAllPets = async () => {

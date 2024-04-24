@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { usePets } from "../../../Context/PetsContext";
+import { useAuth } from "../../../Context/AuthContext";
 import { 
     Box,
     Button,
@@ -12,11 +13,20 @@ import Layout from "../../../Layout";
 const AddPet = () => {
     const { register, handleSubmit } = useForm();
     const { createPet } = usePets();
+    const { user } = useAuth();
+    console.log(user)
     const navigate = useNavigate();
 
     const onSubmit = handleSubmit((data) => {
-        createPet(data);
-        navigate("/pets");
+        try {
+            const petData = { ...data, petOwner: user._id };
+            console.log(petData)
+            createPet(petData);
+            navigate("/pets");
+        } catch (error) {
+            console.log(error)
+        }
+        
     });
 
     return (

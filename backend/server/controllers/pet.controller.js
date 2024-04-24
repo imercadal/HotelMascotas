@@ -2,11 +2,21 @@ import Pet from "../models/pet.model.js";
 
 const createPet = async (req, res) => {
     try {
-        let data = req.body;
-        console.log(data)
-        let newData = await Pet.create(data);
-        console.log(newData)
-        res.status(200).json(newData);
+        const user = req.user;
+        const { petName, petType, petWeight, petAge, petNotes } = req.body;
+        const newPet = new Pet({
+            petName,
+            petType,
+            petWeight,
+            petAge,
+            petNotes,
+            petOwner: user._id,
+        });
+
+        const savedPet = await newPet.save();
+        console.log(savedPet)
+        res.status(201).json(savedPet);
+
     } catch (error) {
         console.log("Error" + error.message);
         res.status(400).json({
@@ -15,9 +25,10 @@ const createPet = async (req, res) => {
     }
 };
 
+
 const getAllPets = async (req, res) => {
     try {
-        let list = await Pet.find().sort({ petType: 1 }).exec();
+        let list = await Pet.find().populate("petOwner");
         res.status(200).json(list);
     } catch (error) {
         console.log("Error" + error.message);

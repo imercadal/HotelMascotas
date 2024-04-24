@@ -33,11 +33,23 @@ const MyPets = () => {
     const goToDetails = (petId) => {
             navigate(`/pets/${petId}`);
     };
+
+    const newPet = () => {
+        navigate(`/pets/new`);
+};
     
     return (
         <Layout>
             <Typography variant='h2'>My Pets</Typography>
             {pets.length === 0 && <Typography variant='h6'>(No hay mascotas)</Typography>}
+            <Button
+                onClick={() => newPet()}
+                variant='contained'
+                color='secondary'
+                sx={{ margin: 2 }}
+            >
+                Agregar nueva mascota
+            </Button>
             <TableContainer sx={{
             alignItems: "center",
             justifyContent: "center"      
@@ -62,15 +74,15 @@ const MyPets = () => {
                             <TableCell>{pet.petAge} años</TableCell>
                             <TableCell>{pet.petNotes}</TableCell>
                             <TableCell>
-                            <Button
-                                onClick={() => goToDetails(pet._id)}
-                                >
-                                Detalle
-                            </Button>
-                            <label> | </label>
-                            <Button onClick={() => goToEdit(pet._id)}>
-                                Editar
-                            </Button>
+                                <Button
+                                    onClick={() => goToDetails(pet._id)}
+                                    >
+                                    Detalle
+                                </Button>
+                                <label> | </label>
+                                <Button onClick={() => goToEdit(pet._id)}>
+                                    Editar
+                                </Button>
                             </TableCell>
                         </tr>
                     );

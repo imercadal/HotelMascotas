@@ -9,8 +9,9 @@ import img3 from "../../Assets/Images/dog1.png";
 import img4 from "../../Assets/Images/dog4.jpg";
 
 import {
-  Container,
+  Grid,
   Box,
+  Paper,
   Typography
 } from '@mui/material';
 
@@ -47,19 +48,34 @@ const Home = (props) => {
         />
         </Box>
         ) : (
-          <Container maxWidth="sm">
-            <Box>
-              <Typography variant="h4" component="h1" gutterBottom>WELCOME TO OUR PAGE</Typography>
-            </Box>
-            <Container height='50vh' maxWidth={ false } >
-              <Box height='50vh' sx={{ display: "flex", width: "100%"}}>
-                <img src={img2} alt="cat2" style={{ flex: 1, padding: '20px' }}/>
-                <img src={img3} alt="dog1" style={{ flex: 1, padding: '10px' }}/>
-                <img src={img4} alt="dog4" style={{ flex: 1, padding: '10px' }}/>
+          <div>
+          <Grid container spacing={2} sx={{ backgroundColor: "#F6F4F3 "}}>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Paper sx={{ padding: "3rem", backgroundColor: "#AF5B5B"}} elevation={5}>
+                  <img src={img4} alt="dog4" style={{ width: '100%', maxWidth: '100%', padding: '10px' }} />
+                  <Typography variant='h5'>Boarding</Typography>
+                </Paper>
               </Box>
-            </Container>
-            
-          </Container>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Paper elevation={5} sx={{ padding: "3rem", backgroundColor: "#F6F4F3"}}>
+                  <img src={img3} alt="dog1" style={{ width: '100%', maxWidth: '100%', padding: '10px' }} />
+                  <Typography variant='h5'>Grooming</Typography>
+                </Paper>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Paper elevation={5} sx={{ padding: "3rem", backgroundColor: "#F6F4F3"}}>
+                  <img src={img2} alt="dog4" style={{ width: '100%', maxWidth: '100%', padding: '10px' }} />
+                  <Typography variant='h5'>DayCare</Typography>
+                </Paper>
+              </Box>
+            </Grid>
+          </Grid>
+        </div>
         )}
         
 
@@ -88,4 +104,26 @@ import defaultUsers from "../../Context/Usuarios.jsx";
           />
         ))}
       </Grid>
+
+
+                <div>
+              <Box height='50vh' sx={{ display: "flex", width: "100%"}}>
+
+                <Box height='50vh' sx={{ flex: "1", backgroundColor: "F03A47", justifyContent: "center"}}>
+                  <Typography variant='h5'>Boarding</Typography>
+                  <img src={img4} alt="dog4" style={{ flex: 1, padding: '10px' }}/>
+                </Box>
+                <Box height='50vh' sx={{ flex: "1", backgroundColor: "F03A47", justifyContent: "center"}}>
+                  <Typography variant='h5'>Grooming</Typography>
+                  <img src={img3} alt="dog1" style={{ flex: 1, padding: '10px' }}/>
+                </Box>
+                <Box height='50vh' sx={{ flex: "1", backgroundColor: "F03A47", justifyContent: "center"}}>
+                  <Typography variant='h5'>DayCare</Typography>
+                  <img src={img2} alt="dog4" style={{ flex: 1, padding: '10px' }}/>
+                </Box>
+
+              </Box>
+
+            
+          </div>
       */

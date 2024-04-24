@@ -57,7 +57,7 @@ const PetList = () => {
                         <tr key={index}>
                             <TableCell>{item.petName}</TableCell>
                             <TableCell>{item.petType}</TableCell>
-                            <TableCell>{user(item.petOwnerId)?.username || 'Unknown'} </TableCell>
+                            <TableCell>{item.petOwner?.username || 'Unknown'} </TableCell>
                             <TableCell>
                             <Button
                                 onClick={() => goToDetails(item._id)}
