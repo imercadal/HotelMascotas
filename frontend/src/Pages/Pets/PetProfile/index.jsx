@@ -21,13 +21,16 @@ export const DetailsPage = () => {
     const [pet, setPet] = useState({
         petName: "",
         petType: "",
-        petDescription: ""
+        petWeight: "",
+        petAge: "",
+        petNotes: "",
+        petOwner: ""
     });
 
     const getPetById = async () => {
         try {
         let result = await axios.get(
-            "http://localhost:8000/api/pets/get/" + petId
+            "http://localhost:3000/api/pets/get/" + petId
         );
         setPet(result.data);
         } catch (error) {

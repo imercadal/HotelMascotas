@@ -17,12 +17,9 @@ import {
 
 const MyPets = () => {
     const { getMyPets, pets } = usePets();
-    const { isAuthenticated, user, token } = useContext(AuthContext);
+    const { isAuthenticated, user } = useContext(AuthContext);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        console.log('JWT Token:', token);
-    }, [token]);
 
     useEffect(() => {
         if (isAuthenticated && user && user.id) {

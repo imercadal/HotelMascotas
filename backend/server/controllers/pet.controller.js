@@ -2,15 +2,15 @@ import Pet from "../models/pet.model.js";
 
 const createPet = async (req, res) => {
     try {
-        const user = req.user;
-        const { petName, petType, petWeight, petAge, petNotes } = req.body;
+
+        const { petName, petType, petWeight, petAge, petNotes,petOwner } = req.body;
         const newPet = new Pet({
             petName,
             petType,
             petWeight,
             petAge,
             petNotes,
-            petOwner: user.id,
+            petOwner: petOwner
         });
 
         const savedPet = await newPet.save();
