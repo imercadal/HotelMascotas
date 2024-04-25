@@ -39,7 +39,7 @@ const App = () => {
 
               <Route element={<ProtectedRoute />}>
                 <Route path="/pets" element={<PetList />} />
-                <Route path="/pets/mypets" element={<MyPets />} />
+                <Route path="/pets/mypets/:id" element={<MyPets />} />
                 <Route path="/pets/new" element={<AddPet />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/reservations/new" element={<ReservationForm />} />

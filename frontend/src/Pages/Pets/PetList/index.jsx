@@ -60,12 +60,12 @@ const PetList = () => {
                             <TableCell>{item.petOwner?.username || 'Unknown'} </TableCell>
                             <TableCell>
                             <Button
-                                onClick={() => goToDetails(item._id)}
+                                onClick={() => goToDetails(item.id)}
                                 >
                                 Detalle
                             </Button>
                             <label> | </label>
-                            <Button onClick={() => goToEdit(item._id)}>
+                            <Button onClick={() => goToEdit(item.id)}>
                                 Editar
                             </Button>
                             </TableCell>

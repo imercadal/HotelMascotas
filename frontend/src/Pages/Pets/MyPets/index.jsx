@@ -17,12 +17,17 @@ import {
 
 const MyPets = () => {
     const { getMyPets, pets } = usePets();
-    const { user } = useContext(AuthContext);
+    const { isAuthenticated, user, token } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user && user._id) {
-            getMyPets(user._id);
+        console.log('JWT Token:', token);
+    }, [token]);
+
+    useEffect(() => {
+        if (isAuthenticated && user && user.id) {
+            console.log(user.id);
+            getMyPets(user.id);
         }
     }, [getMyPets, user]);
 
@@ -75,12 +80,12 @@ const MyPets = () => {
                             <TableCell>{pet.petNotes}</TableCell>
                             <TableCell>
                                 <Button
-                                    onClick={() => goToDetails(pet._id)}
+                                    onClick={() => goToDetails(pet.id)}
                                     >
                                     Detalle
                                 </Button>
                                 <label> | </label>
-                                <Button onClick={() => goToEdit(pet._id)}>
+                                <Button onClick={() => goToEdit(pet.id)}>
                                     Editar
                                 </Button>
                             </TableCell>

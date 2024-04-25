@@ -30,7 +30,7 @@ export function PetProvider({ children }) {
 
     const createPet = async (pet) => {
         try {
-            const petWithOwner = { ...pet, petOwner: user._id};
+            const petWithOwner = { ...pet, petOwner: user.id};
             const res = await createPetRequest(petWithOwner);
             console.log(res);
             getAllPets();
@@ -68,9 +68,9 @@ export function PetProvider({ children }) {
 
     const updatePet = async (updatedPet) => {
         try {
-        const res = await updatePetRequest(updatedPet._id, updatedPet);
+        const res = await updatePetRequest(updatedPet.id, updatedPet);
         if (res.status === 200){
-            setPets(prevPets => prevPets.map(pet => (pet._id === updatedPet._id ? updatedPet : pet)))
+            setPets(prevPets => prevPets.map(pet => (pet.id === updatedPet.id ? updatedPet : pet)))
         }
         } catch (error) {
         console.error(error);
@@ -80,7 +80,7 @@ export function PetProvider({ children }) {
     const deletePet = async (id) => {
         try {
         const res = await deletePetRequest(id);
-        if (res.status === 200) setPets(pets.filter((pet) => pet._id !== id));
+        if (res.status === 200) setPets(pets.filter((pet) => pet.id !== id));
         } catch (error) {
         console.error(error);
         }

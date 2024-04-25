@@ -10,7 +10,7 @@ const createPet = async (req, res) => {
             petWeight,
             petAge,
             petNotes,
-            petOwner: user._id,
+            petOwner: user.id,
         });
 
         const savedPet = await newPet.save();
@@ -80,9 +80,11 @@ const deletePet = async (req, res) => {
 
 const getUsersPets = async (req, res) => {
     try {
-        const pets = await Pet.find({ user: req.user.id })
-        .populate("user");
-        res.json(pets); 
+        const userId = req.params.userId;
+        console.log(userId)
+        const userPets = await Pet.find({ petOwner: userId })
+        console.log(userPets)
+        res.status(200).json(userPets);
 
     }
     catch (error) {

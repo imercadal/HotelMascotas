@@ -19,7 +19,7 @@ const AddPet = () => {
 
     const onSubmit = handleSubmit((data) => {
         try {
-            const petData = { ...data, petOwner: user._id };
+            const petData = { ...data, petOwner: user.id };
             console.log(petData)
             createPet(petData);
             navigate("/pets");

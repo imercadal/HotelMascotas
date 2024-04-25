@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Layout from "../../Layout";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import { useAuth } from "../../Context/AuthContext";
 import UserCard from "../../Components/UserCard";
 
@@ -19,20 +20,30 @@ import {
 const Home = (props) => {
   const navigate = useNavigate();
 
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, token } = useAuth();
+
+  useEffect(() => {
+    console.log('JWT Token:', token);
+  }, [token]);
 
   const editUser = () => {
     navigate("/edit");
   };
 
   const goToMyPets = () => {
-    navigate("/pets/mypets");
+    console.log(user.id)
+    console.log(user)
+    if (isAuthenticated && user && user.id) {
+      navigate(`/pets/mypets/${user.id}`);
+    } else {
+      navigate("/login");
+    }
   }
 
   return (
     <Layout>
       {isAuthenticated ? (
-      <Box sx={{ minWidth: 275 }}>
+      <Box sx={{ minWidth: 275}}>
         <UserCard 
           variant="outlined"
           antetitulo="Your info:"
@@ -52,8 +63,9 @@ const Home = (props) => {
           <Grid container spacing={2} sx={{ backgroundColor: "#F6F4F3 "}}>
             <Grid item xs={12} md={4}>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Paper sx={{ padding: "3rem", backgroundColor: "#AF5B5B"}} elevation={5}>
-                  <img src={img4} alt="dog4" style={{ width: '100%', maxWidth: '100%', padding: '10px' }} />
+                <Paper sx={{ padding: "3rem", backgroundColor: "#F6F4F3"}} elevation={5}>
+                  <img src={img4} alt="dog4" style={{ width: '100%', maxWidth: '100%', padding: '10px', borderRadius: '30px',  border: '5px solid', 
+            borderColor: '#F03A47' }} />
                   <Typography variant='h5'>Boarding</Typography>
                 </Paper>
               </Box>
@@ -61,15 +73,17 @@ const Home = (props) => {
             <Grid item xs={12} md={4}>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Paper elevation={5} sx={{ padding: "3rem", backgroundColor: "#F6F4F3"}}>
-                  <img src={img3} alt="dog1" style={{ width: '100%', maxWidth: '100%', padding: '10px' }} />
+                  <img src={img3} alt="dog1" style={{ width: '100%', maxWidth: '100%', padding: '10px', borderRadius: '30px',  border: '5px solid', 
+            borderColor: '#F03A47' }} />
                   <Typography variant='h5'>Grooming</Typography>
                 </Paper>
               </Box>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Paper elevation={5} sx={{ padding: "3rem", backgroundColor: "#F6F4F3"}}>
-                  <img src={img2} alt="dog4" style={{ width: '100%', maxWidth: '100%', padding: '10px' }} />
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}} >
+                <Paper elevation={5} sx={{ padding: "3rem", backgroundColor: "#F6F4F3", justifyContent: 'center'}}>
+                  <img src={img2} alt="dog4" style={{ width: '100%', maxWidth: '100%', padding: '10px', borderRadius: '30px',  border: '5px solid', 
+            borderColor: '#F03A47'  }} />
                   <Typography variant='h5'>DayCare</Typography>
                 </Paper>
               </Box>

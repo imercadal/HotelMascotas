@@ -15,7 +15,6 @@ const Layout = ({ children }) => {
         >
             <NavBar/>
             <Container maxWidth="100%" style={{
-                backgroundColor: "F6F4F3",
                 display: "flex",
                 flexDirection: "column", 
                 alignItems: "center", 

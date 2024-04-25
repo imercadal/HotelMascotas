@@ -60,11 +60,15 @@ const Navbar = (props) => {
   }
   
     const goToMyPets = () => {
-    navigate("/pets/mypets");
+    navigate(`/pets/mypets/${user.id}`);
   }
 
   const goToMyReservations = () => {
     navigate("/reservations");
+  }
+
+  const newReservation = () => {
+    navigate("/reservations/new");
   }
 
   const login = () => {
@@ -103,7 +107,7 @@ const Navbar = (props) => {
           <Box sx={{display: "flex", alignItems: "center"}}>
         {isAuthenticated ? (
           <>
-            <Button to="/reservations/new">Nueva reserva</Button>
+            <Button onClick={ newReservation }>Nueva reserva</Button>
             <Stack direction="row" spacing={2}>
                   <Button
                     ref={anchorRef}
