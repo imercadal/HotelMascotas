@@ -20,7 +20,7 @@ const PetProfile = () => {
 
     useEffect(() => {
         getPet(petId);
-    }, [getPet, petId]);
+    }, []);
 
     const goToEdit = () => {
         navigate("/");
