@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../Context/AuthContext';
 import { usePets } from '../../../Context/PetsContext';
 import Layout from '../../../Layout';
@@ -16,17 +16,23 @@ import {
 
 
 const MyPets = () => {
-    const { getMyPets, pets } = usePets();
+    const { getAllPets, pets } = usePets();
     const { isAuthenticated, user } = useContext(AuthContext);
     const navigate = useNavigate();
-
+    const [myPets, setMyPets] = useState([]);
 
     useEffect(() => {
-        if (isAuthenticated && user && user.id) {
-            console.log(user.id);
-            getMyPets(user.id);
+        getAllPets();
+        console.log(pets)
+    }, []);
+
+    useEffect (() => {
+        if (isAuthenticated && user && pets.length > 0) {
+            const filteredPets = pets.filter((pet) => pet.petOwner._id === user._id);
+            console.log(filteredPets)
+            setMyPets(filteredPets);
         }
-    }, [getMyPets, user]);
+    }, [pets, isAuthenticated, user]);
 
     const goToEdit = (petId) => {
         navigate(`/pets/${petId}/edit`);
@@ -67,7 +73,7 @@ const MyPets = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {pets.map((pet) => {
+                    {myPets.map((pet) => {
                     return (
                         <tr key={pet.id}>
                             <TableCell>{pet.petName}</TableCell>

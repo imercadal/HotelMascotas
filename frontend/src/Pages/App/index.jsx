@@ -18,6 +18,7 @@ import ProfilePage from "../Profile";
 import PetList from "../Pets/PetList";
 import AddPet from "../Pets/AddPet";
 import MyPets from "../Pets/MyPets";
+import PetProfile from "../Pets/PetProfile";
 import ReservationForm from "../Reservations/ReservationForm";
 import MyReservations from "../Reservations/MyReservations";
 
@@ -40,7 +41,7 @@ const App = () => {
               <Route element={<ProtectedRoute />}>
                 <Route path="/pets" element={<PetList />} />
                 <Route path="/pets/mypets/:id" element={<MyPets />} />
-                <Route path="/pets/:id" element={<MyPets />} />
+                <Route path="/pets/:id" element={<PetProfile />} />
                 <Route path="/pets/new" element={<AddPet />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/reservations/new" element={<ReservationForm />} />

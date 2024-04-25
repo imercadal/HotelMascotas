@@ -1,65 +1,40 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { ButtonComp } from "../../components/ButtonComp/ButtonComp";
-import Navbar from "../../components/Navbar/Navbar";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { usePets } from "../../../Context/PetsContext";
+import Navbar from "../../../Components/NavBar"
 import {
     Typography,
-    Paper,
-    List,
-    ListItem,
-    ListItemText,
-    Container,
+    Paper
 } from "@mui/material";
+import UserCard from "../../../Components/UserCard";
 
-export const DetailsPage = () => {
+const PetProfile = () => {
     const params = useParams();
     const petId = params.id;
+    console.log(petId);
+
+    const { getPet, deletePet, pet } = usePets();
+    console.log(pet)
 
     const navigate = useNavigate();
 
-    const [pet, setPet] = useState({
-        petName: "",
-        petType: "",
-        petWeight: "",
-        petAge: "",
-        petNotes: "",
-        petOwner: ""
-    });
-
-    const getPetById = async () => {
-        try {
-        let result = await axios.get(
-            "http://localhost:3000/api/pets/get/" + petId
-        );
-        setPet(result.data);
-        } catch (error) {
-        console.log(error);
-        }
-    };
-
     useEffect(() => {
-        getPetById();
-    }, []);
+        getPet(petId);
+    }, [getPet, petId]);
 
-    const deletePet = async () => {
-        const confirmed = window.confirm(
-        `Estás a punto de eliminar a ${pet.petName}. ¿Quieres continuar?`
-        );
-        if (confirmed) {
-        try {
-            let result = await axios.delete(
-            "http://localhost:8000/api/pets/delete/" + petId
-            );
-            if (result.status === 200) navigate("/");
-        } catch (error) {
-            alert(error.response.data.message);
-        }
-        }
+    const goToEdit = () => {
+        navigate("/");
     };
 
-    const goToHome = () => {
-        navigate("/");
+    const handleDelete = () => {
+        try{
+            deletePet(pet._id);
+            alert("Pet deleted successfully");
+            navigate("/");
+        } catch (error) {
+            console.error("Error deleting pet:", error);
+            alert("Failed to delete pet. Please try again.");
+        }
     };
 
     if (!pet) {
@@ -72,102 +47,29 @@ export const DetailsPage = () => {
 
     return (
         <div>
-        <Navbar
-            onclick={goToHome}
-            subTitle={`Detalles de: ${pet.petName}`}
-            linkName={"Volver al inicio"}
-        ></Navbar>
-
+        <Navbar/>
         <Paper
             variant="elevation"
             elevation={3}
             sx={{
-            backgroundColor: "primary.main",
-            padding: "30px",
+                backgroundColor: "#F6F4F3",
+                padding: "30px",
             }}
         >
-            <Paper
-            sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                p: 1,
-                m: 1,
-                fontSize: "0.875rem",
-                fontWeight: "700",
-                padding: "20px",
-                maxWidth: "500px",
-                margin: "auto",
-            }}
-            >
-            <Container sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Typography
-                variant="h5"
-                component="label"
-                htmlFor="type-select"
-                sx={{
-                    fontWeight: "bold",
-                    marginBottom: "10px",
-                    display: "flex",
-                    alignItems: "center",
-                }}
-                >
-                {pet.petName}:
-                </Typography>
-            </Container>
-            <List sx={{ width: "100%", maxWidth: 360 }}>
-                <ListItem disablePadding>
-                <Typography
-                    variant="h6"
-                    component="label"
-                    htmlFor="type-select"
-                    sx={{
-                    marginRight: "10px",
-                    fontWeight: "regular",
-                    marginBottom: "10px",
-                    }}
-                >
-                    <strong>Tipo: </strong>
-                    {pet.petType}
-                </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                <Typography
-                    variant="h6"
-                    component="label"
-                    htmlFor="type-select"
-                    sx={{
-                    marginRight: "10px",
-                    fontWeight: "regular",
-                    marginBottom: "10px",
-                    }}
-                >
-                    <strong>Descripción: </strong>
-                    {pet.petDescription}
-                </Typography>
-                </ListItem>
-                <ListItem disablePadding>
-                <ListItemText
-                    primary={
-                    <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-                        Gracias:
-                    </Typography>
-                    }
-                />
-                </ListItem>
-            </List>
-            <ButtonComp
-                onclick={deletePet}
-                variant={"contained"}
-                type={"button"}
-                name={`🏰 ${" "} Eliminar a ${pet.petName}`}
-                color={"main"}
-                sx={{ marginBottom: 10, gap: "10px" }}
-                size="small"
-            ></ButtonComp>
-            </Paper>
+            <UserCard
+                antetitulo={"Mascota"}
+                titulo={"Nombre: " + pet.petName}
+                bajada={"Tipo: " + pet.petType}
+                descripcion={`${pet.petAge} años, ${pet.petWeight}kg`}
+                masInfo={pet.petNotes}
+                onClick1={ goToEdit }
+                linkName1={"Editar"}
+                onClick2={ handleDelete }
+                linkName2={"Eliminar"}
+            ></UserCard>
         </Paper>
         </div>
     );
 };
+
+export default PetProfile;

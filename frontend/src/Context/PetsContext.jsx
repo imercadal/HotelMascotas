@@ -48,12 +48,16 @@ export function PetProvider({ children }) {
         }
     };
 
-    const getPet = async () => {
+    const getPet = async (id) => {
         try {
-        const res = await getPetRequest();
-        setPets(res.data);
+            const res = await getPetRequest(id);
+            if (res.status === 200) {
+                const updatedPets = pets.filter((pet) => pet._id !== id);
+                const fetchedPet = await res.data;
+                setPets([...updatedPets, fetchedPet])
+            }
         } catch (error) {
-        console.error(error);
+            console.error(error);
         }
     };
 

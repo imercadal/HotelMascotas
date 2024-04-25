@@ -1,6 +1,5 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { usePets } from '../../../Context/PetsContext';
-import { AuthContext } from '../../../Context/AuthContext';
 import Layout from '../../../Layout';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -16,8 +15,7 @@ import {
 
 
 const PetList = () => {
-    const { getAllPets, pets } = usePets();
-    const { user } = useContext(AuthContext);
+    const { getAllPets, deletePet, pets } = usePets();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,7 +31,18 @@ const PetList = () => {
     const goToDetails = (petId) => {
             navigate(`/pets/${petId}`);
     };
-    
+
+    const handleDelete = async (petId) => {
+        try {
+            await deletePet(petId);
+            alert('Pet deleted successfully');
+            window.location.reload();
+        } catch (error) {
+            console.error('Error deleting pet:', error);
+            alert('Failed to delete pet. Please try again.');
+        }
+    };
+
     return (
         <Layout>
             <Typography variant='h2'>All Pets</Typography>
@@ -60,13 +69,17 @@ const PetList = () => {
                             <TableCell>{item.petOwner?.username || 'Unknown'} </TableCell>
                             <TableCell>
                             <Button
-                                onClick={() => goToDetails(item.id)}
+                                onClick={() => goToDetails(item._id)}
                                 >
                                 Detalle
                             </Button>
                             <label> | </label>
-                            <Button onClick={() => goToEdit(item.id)}>
+                            <Button onClick={() => goToEdit(item._id)}>
                                 Editar
+                            </Button>
+                            <label> | </label>
+                            <Button onClick={() => handleDelete(item._id) }>
+                                Eliminar
                             </Button>
                             </TableCell>
                         </tr>
