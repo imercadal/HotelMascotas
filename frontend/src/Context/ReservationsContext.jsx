@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react";
-
+import { AuthContext } from "./AuthContext";
+import { useRates } from "./RateContext";
 import {
     createReservationRequest,
     getAllReservationsRequest,
@@ -23,6 +24,22 @@ export const useReservations = () => {
 
 export function ReservationProvider({ children }) {
     const [reservations, setReservations] = useState([]);
+    const { user } = useContext(AuthContext);
+    const { mostRecentRate } = useRates();
+
+    const createReservation = async (reservationData) => {
+        try{
+            const reservationWithClientAndRate = { 
+                ...reservationData, 
+                reservationClient: user.id, 
+                rate: mostRecentRate.ratePetNight 
+            };
+            const res = await createReservationRequest(reservationWithClientAndRate);
+            console.log(res);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const getAllReservations = async () => {
         try {
@@ -51,14 +68,6 @@ export function ReservationProvider({ children }) {
         }
     }
 
-    const createReservation = async (reservation) => {
-        try{
-            const res = await createReservationRequest(reservation);
-            console.log(res);
-        } catch (error) {
-            console.error(error);
-        }
-    };
 
     const updateReservation = async (reservation) => {
         try {
@@ -106,3 +115,5 @@ export function ReservationProvider({ children }) {
         </ReservationContext.Provider>
     );
 }
+
+export default ReservationContext;

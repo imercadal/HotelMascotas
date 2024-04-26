@@ -14,7 +14,6 @@ const AddPet = () => {
     const { register, handleSubmit } = useForm();
     const { createPet } = usePets();
     const { user } = useAuth();
-    console.log(user)
     const navigate = useNavigate();
 
     const onSubmit = handleSubmit((data) => {

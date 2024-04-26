@@ -3,9 +3,10 @@ import * as rateCtrl from "../controllers/rate.controller.js";
 
 const rateRouter = express.Router();
 
-rateRouter.post("/rates/new", rateCtrl.addRate);
-rateRouter.get("/rates/get", rateCtrl.getAllRates);
-rateRouter.get("/rates/get/:id", rateCtrl.getRateById);
-rateRouter.delete("/rates/delete/:id", rateCtrl.deleteRate);
+rateRouter.post("/rates", rateCtrl.addRate);
+rateRouter.get("/rates/effective", rateCtrl.getMostRecentRate);
+rateRouter.get("/rates", rateCtrl.getAllRates);
+rateRouter.get("/rates/:id", rateCtrl.getRateById);
+rateRouter.delete("/rates/:id", rateCtrl.deleteRate);
 
 export default rateRouter;

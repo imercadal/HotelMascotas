@@ -23,16 +23,16 @@ const MyPets = () => {
 
     useEffect(() => {
         getAllPets();
-        console.log(pets)
     }, []);
 
     useEffect (() => {
         if (isAuthenticated && user && pets.length > 0) {
-            const filteredPets = pets.filter((pet) => pet.petOwner._id === user._id);
+            console.log(pets)
+            const filteredPets = pets.filter((pet) => pet.petOwner._id === user.id);
             console.log(filteredPets)
             setMyPets(filteredPets);
         }
-    }, [pets, isAuthenticated, user]);
+    }, [pets, user, isAuthenticated]);
 
     const goToEdit = (petId) => {
         navigate(`/pets/${petId}/edit`);
@@ -75,24 +75,23 @@ const MyPets = () => {
                 <TableBody>
                     {myPets.map((pet) => {
                     return (
-                        <tr key={pet.id}>
+                        <TableRow key={pet._id}>
                             <TableCell>{pet.petName}</TableCell>
                             <TableCell>{pet.petType}</TableCell>
                             <TableCell>{pet.petWeight} kg</TableCell>
                             <TableCell>{pet.petAge} años</TableCell>
-                            <TableCell>{pet.petNotes}</TableCell>
                             <TableCell>
                                 <Button
-                                    onClick={() => goToDetails(pet.id)}
+                                    onClick={() => goToDetails(pet._id)}
                                     >
                                     Detalle
                                 </Button>
                                 <label> | </label>
-                                <Button onClick={() => goToEdit(pet.id)}>
+                                <Button onClick={() => goToEdit(pet._id)}>
                                     Editar
                                 </Button>
                             </TableCell>
-                        </tr>
+                        </TableRow>
                     );
                 })}
                 </TableBody>

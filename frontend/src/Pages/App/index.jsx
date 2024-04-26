@@ -7,6 +7,7 @@ import { AuthProvider } from "../../Context/AuthContext.jsx";
 //Importando contextos.
 import { PetProvider } from '../../Context/PetsContext';
 import { ReservationProvider } from '../../Context/ReservationsContext';
+import { RateProvider } from '../../Context/RateContext';
 
 //Importando las paginas.
 import Home from "../Home";
@@ -27,8 +28,9 @@ import ProtectedRoute from "../../Components/ProtectedRoute/index.jsx";
 
 const App = () => {
   return (
-    <ReservationProvider>
     <AuthProvider>
+    <RateProvider>
+    <ReservationProvider>
     <PetProvider>
           <BrowserRouter>
             <Routes>
@@ -51,8 +53,9 @@ const App = () => {
             </Routes>
           </BrowserRouter>
     </PetProvider>
-    </AuthProvider>
     </ReservationProvider>
+    </RateProvider>
+    </AuthProvider>
   );
 };
 

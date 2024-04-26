@@ -27,8 +27,7 @@ router.get('/calculate-amount-due', async (req, res) => {
 });
 
 router.post(
-    "/reservations/new", 
-    authRequired,
+    "/reservations/new",
     validateSchema(createReservationSchema),
     createReservation
 );

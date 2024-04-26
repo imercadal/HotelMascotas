@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Layout from "../../Layout";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import { useAuth } from "../../Context/AuthContext";
 import UserCard from "../../Components/UserCard";
 
@@ -19,22 +18,17 @@ import {
 
 const Home = (props) => {
   const navigate = useNavigate();
-
-  const { isAuthenticated, user, token } = useAuth();
-
-  useEffect(() => {
-    console.log('JWT Token:', token);
-  }, [token]);
+  const { isAuthenticated, user } = useAuth();
 
   const editUser = () => {
     navigate("/edit");
   };
 
   const goToMyPets = () => {
-    console.log(user.id)
-    console.log(user)
     if (isAuthenticated && user && user.id) {
       navigate(`/pets/mypets/${user.id}`);
+      console.log(user.id)
+      console.log(user)
     } else {
       navigate("/login");
     }
