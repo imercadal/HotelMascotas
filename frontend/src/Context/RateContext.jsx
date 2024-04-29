@@ -2,7 +2,6 @@ import { createContext, useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { 
     addRateRequest,
-    getMostRecentRateRequest,
     getAllRatesRequest,
     getRateByIdRequest,
     deleteRateRequest
@@ -22,7 +21,6 @@ export const useRates = () => {
 
 export function RateProvider({ children }) {
     const [rates, setRates] = useState([]);
-    const [mostRecentRate, setMostRecentRate] = useState({});
 
     const addRate = async (rate) => {
         try {
@@ -33,15 +31,6 @@ export function RateProvider({ children }) {
             console.error(error);
         }
     };
-
-    const getMostRecentRate = async () => {
-        try {
-            const res = await getMostRecentRateRequest();
-            setMostRecentRate(res.data);
-        } catch (error) {
-            console.error(error);
-        }
-    }
 
     const getAllRates = async () => {
         try {
@@ -75,9 +64,7 @@ export function RateProvider({ children }) {
         <RateContext.Provider 
         value={{ 
             rates,
-            mostRecentRate,
             addRate,
-            getMostRecentRate,
             getAllRates, 
             getRateById, 
             deleteRate 

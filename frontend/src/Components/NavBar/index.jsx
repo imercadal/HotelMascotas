@@ -60,7 +60,7 @@ const Navbar = (props) => {
   }
   
     const goToMyPets = () => {
-    navigate(`/pets/mypets/${user.id}`);
+    navigate(`/pets/mypets/${user._id}`);
   }
 
   const goToMyReservations = () => {

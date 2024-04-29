@@ -22,8 +22,7 @@ const PetsSchema = new mongoose.Schema(
             required: [true, "Pet's Age is required"],
         },
         petNotes: {
-            type: String,
-            minlength: 3
+            type: String
         },
         petOwner: {
             type: mongoose.Schema.Types.ObjectId, ref: User  

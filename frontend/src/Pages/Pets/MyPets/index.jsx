@@ -27,9 +27,7 @@ const MyPets = () => {
 
     useEffect (() => {
         if (isAuthenticated && user && pets.length > 0) {
-            console.log(pets)
             const filteredPets = pets.filter((pet) => pet.petOwner._id === user.id);
-            console.log(filteredPets)
             setMyPets(filteredPets);
         }
     }, [pets, user, isAuthenticated]);

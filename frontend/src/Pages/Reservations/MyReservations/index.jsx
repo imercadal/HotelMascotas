@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../Context/AuthContext';
 import { useReservations } from '../../../Context/ReservationsContext';
 import Layout from '../../../Layout';
@@ -16,23 +16,39 @@ import {
 
 
 const MyReservations = () => {
-    const { getMyReservations, reservations } = useReservations();
-    const { user } = useContext(AuthContext);
+    const { getAllReservations, deleteReservation, reservations } = useReservations();
+    const [myReservations, setMyReservations] = useState([]);
+
+    const { isAuthenticated, user } = useContext(AuthContext);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (user && user._id) {
-            getMyReservations(user._id);
+        getAllReservations();
+    }, []);
+
+    useEffect(() => {
+        if (isAuthenticated && user && reservations.length > 0) {
+            const filteredReservations = reservations.filter((reservations) => reservations.reservationClient === user.id);
+            setMyReservations(filteredReservations);
         }
-    }, [getMyReservations, user]);
+    }, [reservations, user, isAuthenticated]);
+
 
     const goToEdit = (reservationId) => {
         navigate(`/reservations/${reservationId}/edit`);
     };
     
-    const goToDetails = (reservationId) => {
-            navigate(`/reservations/${reservationId}`);
+    const handleDelete = async(reservationId) => {
+        try {
+            await deleteReservation(reservationId);
+            alert('Reservation deleted successfully');
+            window.location.reload();
+        } catch (error) {
+            console.error('Error deleting reservation:', error);
+            alert('Failed to delete reservation. Please try again.');
+        }
     };
+
     
     return (
         <Layout>
@@ -46,33 +62,31 @@ const MyReservations = () => {
                 <TableHead>
                     <TableRow>
                         <TableCell>Pet</TableCell>
-                        <TableCell>Additional Notes</TableCell>
                         <TableCell>Check-in Date</TableCell>
                         <TableCell>Check-out Date</TableCell>
-                        <TableCell>Number of nights</TableCell>
                         <TableCell>Amount Due</TableCell>
+                        <TableCell>Additional Notes</TableCell>
                         <TableCell>Acciones</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {reservations.map((reservation) => {
+                    {myReservations.map((reservation) => {
                     return (
                         <tr key={reservation.id}>
                             <TableCell>{reservation.reservationPet}</TableCell>
-                            <TableCell>{reservation.reservationNotes}</TableCell>
                             <TableCell>{reservation.checkInDate}</TableCell>
                             <TableCell>{reservation.checkOutDate}</TableCell>
-                            <TableCell>{reservation.numberOfNights}</TableCell>
-                            <TableCell>Amount Due Temp</TableCell>
+                            <TableCell>$ {reservation.amountDue}</TableCell>
+                            <TableCell>{reservation.reservationNotes}</TableCell>
                             <TableCell>
                             <Button
-                                onClick={() => goToDetails(reservation._id)}
+                                onClick={() => goToEdit(reservation._id)}
                                 >
-                                Detalle
+                                Edit
                             </Button>
                             <label> | </label>
-                            <Button onClick={() => goToEdit(reservation._id)}>
-                                Editar
+                            <Button onClick={ handleDelete }>
+                                Delete
                             </Button>
                             </TableCell>
                         </tr>

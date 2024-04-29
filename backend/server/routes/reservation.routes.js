@@ -11,9 +11,6 @@ import {
     deleteReservation
 } from "../controllers/reservation.controller.js";
 
-import { validateSchema } from "../middlewares/validator.middleware.js";
-import { createReservationSchema } from "../validators/reservation.validator.js";
-
 const router = Router();
 
 router.get('/calculate-amount-due', async (req, res) => {
@@ -27,8 +24,7 @@ router.get('/calculate-amount-due', async (req, res) => {
 });
 
 router.post(
-    "/reservations/new",
-    validateSchema(createReservationSchema),
+    "/reservations",
     createReservation
 );
 

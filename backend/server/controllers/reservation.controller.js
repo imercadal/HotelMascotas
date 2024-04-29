@@ -20,12 +20,12 @@ const calculateAmountDue = async (rateId, checkInDate, checkOutDate) => {
 
 const createReservation = async (req, res) => {
     try{
-        const { reservationClient, reservationPet, reservationNotes, reservationDate, checkInDate, checkOutDate, rate } = req.body;
+        const { reservationClient, reservationPet, reservationNotes, checkInDate, checkOutDate, rate } = req.body;
     
         const amountDue = await calculateAmountDue(rate, checkInDate, checkOutDate);
     
         const newReservation = new Reservation({
-            reservationClient: req.user.id,
+            reservationClient,
             reservationPet,
             reservationNotes,
             checkInDate,
@@ -37,7 +37,7 @@ const createReservation = async (req, res) => {
     
         const savedReservation = await newReservation.save();
     
-        res.json(savedReservation);
+        res.status(201).json({ status: 'success', reservation: savedReservation });
     } catch (error) {
         console.error("Error" + error);
         res.status(400).json({

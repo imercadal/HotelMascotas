@@ -1,6 +1,6 @@
 import axios from "./axios";
 
-export const createReservationRequest = (reservation) => axios.post("/reservations/new", reservation);
+export const createReservationRequest = (reservation) => axios.post("/reservations", reservation);
 
 export const getAllReservationsRequest = () => axios.get("/reservations");
 
@@ -11,5 +11,3 @@ export const getMyReservationsRequest = (clientId) => axios.get(`/reservations/c
 export const updateReservationRequest = (reservation) => axios.put(`/reservations/${reservation._id}`, reservation);
 
 export const deleteReservationRequest = (id) => axios.delete(`/reservations/${id}`);
-
-export const calculateAmountDueRequest = (reservation) => axios.get("/calculate-amount-due", reservation);

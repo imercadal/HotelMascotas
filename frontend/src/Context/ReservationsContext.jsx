@@ -1,14 +1,11 @@
 import { createContext, useContext, useState } from "react";
-import { AuthContext } from "./AuthContext";
-import { useRates } from "./RateContext";
 import {
     createReservationRequest,
     getAllReservationsRequest,
     getReservationByIdRequest,
     getMyReservationsRequest,
     updateReservationRequest,
-    deleteReservationRequest,
-    calculateAmountDueRequest
+    deleteReservationRequest
 } from "../Api/reservations";
 
 const ReservationContext = createContext();
@@ -24,18 +21,10 @@ export const useReservations = () => {
 
 export function ReservationProvider({ children }) {
     const [reservations, setReservations] = useState([]);
-    const { user } = useContext(AuthContext);
-    const { mostRecentRate } = useRates();
 
     const createReservation = async (reservationData) => {
         try{
-            const reservationWithClientAndRate = { 
-                ...reservationData, 
-                reservationClient: user.id, 
-                rate: mostRecentRate.ratePetNight 
-            };
-            const res = await createReservationRequest(reservationWithClientAndRate);
-            console.log(res);
+            await createReservationRequest(reservationData);
         } catch (error) {
             console.error(error);
         }
@@ -89,15 +78,6 @@ export function ReservationProvider({ children }) {
         }
     };
 
-    const calculateAmountDue = async (reservation) => {
-        try {
-        const res = await calculateAmountDueRequest(reservation);
-        return res.data;
-        } catch (error) {
-        console.error(error);
-        }
-    }
-
     return (
         <ReservationContext.Provider
         value={{
@@ -107,8 +87,7 @@ export function ReservationProvider({ children }) {
             getMyReservations,
             getReservationById,
             updateReservation,
-            deleteReservation,
-            calculateAmountDue
+            deleteReservation
         }}
         >
         {children}

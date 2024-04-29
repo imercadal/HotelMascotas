@@ -21,12 +21,14 @@ const ReservationSchema = new mongoose.Schema(
             required: [true, "Check-out Date is required"],
         },
         numberOfNights: {
-            type: Number,
-            required: true,
+            type: Number
         },
         rate: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Rate"
+        },
+        amountDue: {
+            type: Number
         },
     },
     { timestamps: true }

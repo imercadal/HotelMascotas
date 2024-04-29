@@ -2,7 +2,6 @@ import * as React from 'react';
 import Layout from "../../Layout";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
-import UserCard from "../../Components/UserCard";
 
 import img2 from "../../Assets/Images/cat2.jpg";
 import img3 from "../../Assets/Images/dog1.png";
@@ -12,9 +11,20 @@ import {
   Grid,
   Box,
   Paper,
-  Typography
+  Typography,
+  Button,
+  Container
 } from '@mui/material';
 
+
+const bull = (
+  <Box
+      component="span"
+      sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+  >
+      •
+  </Box>
+);
 
 const Home = (props) => {
   const navigate = useNavigate();
@@ -27,8 +37,6 @@ const Home = (props) => {
   const goToMyPets = () => {
     if (isAuthenticated && user && user.id) {
       navigate(`/pets/mypets/${user.id}`);
-      console.log(user.id)
-      console.log(user)
     } else {
       navigate("/login");
     }
@@ -38,19 +46,38 @@ const Home = (props) => {
     <Layout>
       {isAuthenticated ? (
       <Box sx={{ minWidth: 275}}>
-        <UserCard 
-          variant="outlined"
-          antetitulo="Your info:"
-          titulo={ user.username}
-          bajada={ user.email }
-          descripcion= "my reservations"
-          masInfo= "my pets"
-          linkName1="Edit"
-          onClick1={ editUser }
-          linkName2="My pets"
-          onClick2={ goToMyPets }
-        
-        />
+        <Container >
+        <Box sx={{ 
+            border: '5px solid', 
+            borderColor: '#F03A47', 
+            backgroundColor: "#F6F4F3",
+            borderRadius: "10px" }}>
+        <Box sx={{
+          padding: "30px",
+
+          }}>
+            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                {bull}Your info {bull}
+            </Typography>
+            <Typography variant="h5" component="div">
+
+                Welcome, { user.username }
+            </Typography>
+            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                { user.email }
+            </Typography>
+            <Typography variant="body2">
+                My reservations: 
+                <br />
+                Other info I'd like to share
+            </Typography>
+        </Box>
+        <Box sx={{ display: "flex", justifyContent: "space-around", padding: "10px"}}>
+            <Button variant='secondary' size="small" onClick={ editUser }>Edit</Button>
+            <Button variant='secondary' size="small" onClick={ goToMyPets }>My Pets</Button>
+        </Box>
+        </Box>
+    </Container>
         </Box>
         ) : (
           <div>

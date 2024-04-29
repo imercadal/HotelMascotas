@@ -1,8 +1,6 @@
-import axios from "axios";
+import axios from "./axios";
 
 export const addRateRequest = (rate) => axios.post("/rates", rate);
-
-export const getMostRecentRateRequest = () => axios.get("/rates/effective");
 
 export const getAllRatesRequest = () => axios.get("/rates");
 

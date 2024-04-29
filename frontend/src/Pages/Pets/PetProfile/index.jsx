@@ -10,16 +10,16 @@ import UserCard from "../../../Components/UserCard";
 
 const PetProfile = () => {
     const params = useParams();
-    const petId = params.id;
+    const petId = params._id;
     console.log(petId);
 
     const { getPet, deletePet, pet } = usePets();
-    console.log(pet)
 
     const navigate = useNavigate();
 
     useEffect(() => {
         getPet(petId);
+        console.log(pet)
     }, []);
 
     const goToEdit = () => {

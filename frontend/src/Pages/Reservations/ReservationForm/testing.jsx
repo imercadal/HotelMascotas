@@ -1,88 +1,75 @@
-import { useContext, useEffect, useState } from 'react';
-import { json, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { useReservations } from "../../../Context/ReservationsContext";
-import { useRates } from "../../../Context/RateContext";
+import { useEffect } from 'react';
 import { usePets } from '../../../Context/PetsContext';
-import { AuthContext } from "../../../Context/AuthContext";
-import Layout from "../../../Layout";
+import Layout from '../../../Layout';
+import { useNavigate } from 'react-router-dom';
 import {
+    Table,
+    TableCell,
+    TableContainer,
+    TableBody,
+    Button,
+    Typography,
     Box,
     InputLabel,
     Input,
-    Button,
-    Typography,
     Grid,
     TextField,
     Container,
+    CssBaseline,
     Select
-} from "@mui/material";
+} from '@mui/material';
 
 
-const CreateReservation = () => {
-    const { register, handleSubmit } = useForm();
-    const { createReservation } = useReservations();
-    const navigate = useNavigate();
-
-    const { isAuthenticated, user } = useContext(AuthContext);
-
-    const { getAllRates, rates } = useRates();
-    const [mostRecentRate, setMostRecentRate] = useState({});
-
+const PetList = () => {
     const { getAllPets, pets } = usePets();
+    const navigate = useNavigate();
     const [myPets, setMyPets] = useState([]);
-    const [selectedPet, setSelectedPet] = useState("");
-
 
     useEffect(() => {
-        getAllPets();
-    }, []);
+            getAllPets();
+        }, []);
 
-    useEffect(() => {
-        getAllRates()
-    }, []);
+    if (pets.length === 0) return <h1>No hay mascotas</h1>;
 
-    useEffect(() => {
-        if (rates.length > 0) {
-            setMostRecentRate(rates[0]);
-        }
-    }, [rates]);
 
-    useEffect (() => {
-        if (isAuthenticated && user && pets.length > 0) {
-            const filteredPets = pets.filter((pet) => pet.petOwner._id === user.id);
-            setMyPets(filteredPets);
-        }
-    }, [pets, isAuthenticated, user]);
-
-    const handleSelectChange = (event) => {
-        setSelectedPet(event.target.value);
-        console.log(selectedPet.petName)
-    };
-
-    const onSubmit = handleSubmit(async (data) => {
-        try{
-            const reservationData = {
-                ...data,
-                reservationClient: user.id,
-                rate: mostRecentRate._id
-            };
-            await createReservation(reservationData);
-            alert("Reservation created successfully");
-            navigate("/");
-            
-        } catch (error) {
-            console.error(error);
-        }
-    });
 
     const goToMyPets = () => {
-        navigate("/pets");
+        navigate('/pets');
     }
 
     return (
         <Layout>
+            <TableContainer sx={{
+            alignItems: "center",
+            justifyContent: "center"      
+            }}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                <TableBody>
+
+                    {pets.map((item, index) => {
+                    return (
+                        <tr key={index}>
+                            <TableCell>{item.petName}</TableCell>
+                            <TableCell>{item.petType}</TableCell>
+                            <TableCell>{item.petOwner?.username || 'Unknown'} </TableCell>
+                            <TableCell>
+
+                            <label> | </label>
+
+                            <label> | </label>
+                            <Button onClick={() => handleDelete(item._id) }>
+                                Eliminar
+                            </Button>
+                            </TableCell>
+                        </tr>
+                    );
+                })}
+                </TableBody>
+            </Table>
+            </TableContainer>
+            <Layout>
             <Container component="main" maxWidth="sm">
+                <CssBaseline />
                 <Box
                 sx={{
                     marginTop: 8,
@@ -99,26 +86,20 @@ const CreateReservation = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <InputLabel variant='standard'>Mascota:</InputLabel>
-                            <select
+                            <Select
                                 {...register("reservationPet")}
                                 autoFocus
+                                fullWidth
                                 name="reservationPet"
                                 value={selectedPet}
                                 onChange={handleSelectChange}
                             >
-                                {myPets.length > 0 ? (
-                                    <>
-                                        <option value="default">Select a pet</option>
-                                        {myPets.map((pet) => (
-                                            <option key={pet._id} value={String(pet._id)}>
-                                                {pet.petName}
-                                            </option>
-                                        ))}
-                                    </>
-                                ) : (
-                                    <option value="default">No pets available</option>
-                                )}
-                            </select>
+                                {myPets.map((pet) => (
+                                    <option key={pet._id} value={String(pet._id)}>
+                                        {pet.petName}
+                                    </option>
+                                ))}
+                            </Select>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <InputLabel variant='standard'>Fecha de entrada:</InputLabel>
@@ -168,7 +149,8 @@ const CreateReservation = () => {
                 </Box>
             </Container>
         </Layout>
+        </Layout>
     );
 };
 
-export default CreateReservation;
+export default PetList;

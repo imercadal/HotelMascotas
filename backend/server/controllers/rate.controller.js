@@ -13,15 +13,6 @@ const addRate = async (req, res) => {
     }
 }
 
-const getMostRecentRate = async (req, res) => {
-    try {
-        let mostRecentRate = await Rate.find().sort({ effectiveDate: -1 }).limit(1);
-        res.status(200).json(mostRecentRate);
-    } catch (error) {
-        console.log("Error" + error.message);
-    }
-}
-
 const getAllRates = async (req, res) => {
     try {
         let list = await Rate.find().sort({ effectiveDate: -1 }).exec();
@@ -60,4 +51,4 @@ const deleteRate = async (req, res) => {
     }
 }
 
-export { addRate, getMostRecentRate, getAllRates, getRateById, deleteRate };
+export { addRate, getAllRates, getRateById, deleteRate };
