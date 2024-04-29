@@ -15,6 +15,7 @@ import {
     Grid,
     TextField,
     Container,
+    Paper,
     Select
 } from "@mui/material";
 
@@ -57,7 +58,7 @@ const CreateReservation = () => {
 
     const handleSelectChange = (event) => {
         setSelectedPet(event.target.value);
-        console.log(selectedPet.petName)
+        console.log(selectedPet)
     };
 
     const onSubmit = handleSubmit(async (data) => {
@@ -82,6 +83,14 @@ const CreateReservation = () => {
 
     return (
         <Layout>
+            <Paper 
+            elevation={3}
+            sx={{
+                justifyContent: "center",
+                padding: "30px",
+                backgroundColor: "#F6F4F3",
+            }}
+            >
             <Container component="main" maxWidth="sm">
                 <Box
                 sx={{
@@ -167,6 +176,7 @@ const CreateReservation = () => {
                 </Box>
                 </Box>
             </Container>
+            </Paper>
         </Layout>
     );
 };

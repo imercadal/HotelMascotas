@@ -1,7 +1,9 @@
 import * as React from 'react';
 import Layout from "../../Layout";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../Context/AuthContext";
+import { usePets } from "../../Context/PetsContext";
 
 import img2 from "../../Assets/Images/cat2.jpg";
 import img3 from "../../Assets/Images/dog1.png";
@@ -30,73 +32,128 @@ const Home = (props) => {
   const navigate = useNavigate();
   const { isAuthenticated, user } = useAuth();
 
+  const { getAllPets, pets } = usePets();
+  const [myPets, setMyPets] = useState([]);
+
+  useEffect(() => {
+      getAllPets();
+  }, []);
+
+  useEffect (() => {
+      if (isAuthenticated && user && pets.length > 0) {
+          const filteredPets = pets.filter((pet) => pet.petOwner._id === user.id);
+          setMyPets(filteredPets);
+      }
+  }, [pets, user, isAuthenticated]);
+
   const editUser = () => {
-    navigate("/edit");
-  };
+      navigate('/user/edit/:id');
+  }
 
   const goToMyPets = () => {
-    if (isAuthenticated && user && user.id) {
-      navigate(`/pets/mypets/${user.id}`);
-    } else {
-      navigate("/login");
-    }
+      navigate('/pets/mypets/:id');
+  }
+
+  const goToMakeReservation = () => {
+      navigate('/reservations/new');
   }
 
   return (
     <Layout>
       {isAuthenticated ? (
-      <Box sx={{ minWidth: 275}}>
-        <Container >
-        <Box sx={{ 
-            border: '5px solid', 
-            borderColor: '#F03A47', 
-            backgroundColor: "#F6F4F3",
-            borderRadius: "10px" }}>
-        <Box sx={{
-          padding: "30px",
+      <Box sx={{ minWidth: 275,  borderRadius: '10px'}}>
 
-          }}>
-            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {bull}Your info {bull}
-            </Typography>
-            <Typography variant="h5" component="div">
+        <Container >
+        <Paper elevation={15} sx={{ 
+            
+            backgroundColor: "#F6F4F3",
+            borderRadius: "10px",
+            minWidth: "80vh",
+            padding: "30px"
+            }}>
+            
+            <Typography variant="h2" component="div">
 
                 Welcome, { user.username }
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                { user.email }
+                Tus mascotas:
             </Typography>
             <Typography variant="body2">
-                My reservations: 
-                <br />
-                Other info I'd like to share
+                {myPets.map((pet) => (
+                    <Box key={pet._id} sx={{ display: "flex", marginLeft: "5em"}}>
+                        <Typography variant="h5" sx={{fontFamily: "Roots" }} >
+                          {bull} {pet.petName}
+                        </Typography>
+                    </Box>
+                ))}
+            
             </Typography>
-        </Box>
-        <Box sx={{ display: "flex", justifyContent: "space-around", padding: "10px"}}>
-            <Button variant='secondary' size="small" onClick={ editUser }>Edit</Button>
-            <Button variant='secondary' size="small" onClick={ goToMyPets }>My Pets</Button>
-        </Box>
-        </Box>
+            <Box sx={{ display: "flex", justifyContent: "space-around", padding: "10px"}}>
+              <Button 
+                variant='secondary' 
+                size="small" 
+                onClick={ editUser }
+                sx={{ color: "#F03A47" }}
+                >My info</Button>
+              <Button 
+                variant='secondary' 
+                size="small" 
+                onClick={ goToMyPets }
+                sx={{ color: "#F03A47" }}
+              >My Pets</Button>
+            </Box>
+        <Grid container spacing={2} sx={{ 
+            borderRadius: "10px", minWidth: "80vh", padding: '20px'}}>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Button onClick={ goToMakeReservation }>
+                <img src={img4} alt="dog4" style={{ width: '100%', maxWidth: '100%', padding: '10px', borderRadius: '30px',  border: '5px solid', 
+            borderColor: '#F03A47' }} />
+                  
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <Button onClick={ goToMakeReservation }>
+                <img src={img3} alt="dog1" style={{ width: '100%', maxWidth: '100%', padding: '10px', borderRadius: '30px',  border: '5px solid', 
+            borderColor: '#F03A47' }} />
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}} >
+                <Button onClick={ goToMakeReservation }>
+                <img src={img2} alt="dog4" style={{ width: '100%', maxWidth: '100%', padding: '10px', borderRadius: '30px',  border: '5px solid', 
+            borderColor: '#F03A47'  }} />
+                  
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
+        </Paper>
     </Container>
         </Box>
         ) : (
           <div>
-          <Grid container spacing={2} sx={{ backgroundColor: "#F6F4F3 "}}>
+          <Grid container spacing={2} sx={{ 
+            borderRadius: "10px", padding: '10px'}}>
             <Grid item xs={12} md={4}>
               <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Paper sx={{ padding: "3rem", backgroundColor: "#F6F4F3"}} elevation={5}>
                   <img src={img4} alt="dog4" style={{ width: '100%', maxWidth: '100%', padding: '10px', borderRadius: '30px',  border: '5px solid', 
             borderColor: '#F03A47' }} />
-                  <Typography variant='h5'>Boarding</Typography>
+                  <Typography variant='h4' sx={{fontFamily: "Roots"}} >Boarding</Typography>
                 </Paper>
               </Box>
             </Grid>
             <Grid item xs={12} md={4}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <Paper elevation={5} sx={{ padding: "3rem", backgroundColor: "#F6F4F3"}}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <Paper elevation={5} sx={{ padding: "3rem", backgroundColor: "#F6F4F3", justifyContent: 'center', alignItems: 'center'}}>
                   <img src={img3} alt="dog1" style={{ width: '100%', maxWidth: '100%', padding: '10px', borderRadius: '30px',  border: '5px solid', 
             borderColor: '#F03A47' }} />
-                  <Typography variant='h5'>Grooming</Typography>
+                  <Typography variant='h4' sx={{fontFamily: "Roots" }} >Grooming</Typography>
                 </Paper>
               </Box>
             </Grid>
@@ -105,7 +162,7 @@ const Home = (props) => {
                 <Paper elevation={5} sx={{ padding: "3rem", backgroundColor: "#F6F4F3", justifyContent: 'center'}}>
                   <img src={img2} alt="dog4" style={{ width: '100%', maxWidth: '100%', padding: '10px', borderRadius: '30px',  border: '5px solid', 
             borderColor: '#F03A47'  }} />
-                  <Typography variant='h5'>DayCare</Typography>
+                  <Typography variant='h4' sx={{fontFamily: "Roots" }} >DayCare</Typography>
                 </Paper>
               </Box>
             </Grid>
@@ -120,45 +177,3 @@ const Home = (props) => {
 
 export default Home;
 
-
-/*
-//Importando componentes
-import Card from "../../Components/Card";
-
-//Importando usuarios por defecto.
-import defaultUsers from "../../Context/Usuarios.jsx";
-
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {defaultUsers.map((user) => (
-          <Card
-            key={user.nombre}
-            apellido={user.apellido}
-            nombre={user.nombre}
-            edad={user.edad}
-            colorPelo={user.colorPelo}
-          />
-        ))}
-      </Grid>
-
-
-                <div>
-              <Box height='50vh' sx={{ display: "flex", width: "100%"}}>
-
-                <Box height='50vh' sx={{ flex: "1", backgroundColor: "F03A47", justifyContent: "center"}}>
-                  <Typography variant='h5'>Boarding</Typography>
-                  <img src={img4} alt="dog4" style={{ flex: 1, padding: '10px' }}/>
-                </Box>
-                <Box height='50vh' sx={{ flex: "1", backgroundColor: "F03A47", justifyContent: "center"}}>
-                  <Typography variant='h5'>Grooming</Typography>
-                  <img src={img3} alt="dog1" style={{ flex: 1, padding: '10px' }}/>
-                </Box>
-                <Box height='50vh' sx={{ flex: "1", backgroundColor: "F03A47", justifyContent: "center"}}>
-                  <Typography variant='h5'>DayCare</Typography>
-                  <img src={img2} alt="dog4" style={{ flex: 1, padding: '10px' }}/>
-                </Box>
-
-              </Box>
-
-            
-          </div>
-      */

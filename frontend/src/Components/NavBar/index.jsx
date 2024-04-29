@@ -135,15 +135,21 @@ const Navbar = (props) => {
                               placement === 'bottom-start' ? 'left top' : 'left bottom',
                           }}
                         >
-                          <Paper>
+                          <Paper sx={{ 
+                                  backgroundColor: "#F6F4F3",
+                                  borderRadius: "10px",
+                                  border: 'solid 2px #F03A47'
+                                }}>
                             <ClickAwayListener onClickAway={handleClose}>
                               <MenuList
                                 autoFocusItem={open}
                                 id="composition-menu"
                                 aria-labelledby="composition-button"
                                 onKeyDown={handleListKeyDown}
+                                
                               >
-                                <MenuItem onClick={ goToMyReservations }>Mis reservas</MenuItem>
+                                <MenuItem onClick={ goToMyReservations }
+                                >Mis reservas</MenuItem>
                                 <MenuItem onClick={ goToMyPets }>Mis mascotas</MenuItem>
                                 <MenuItem onClick={ logout }>Cerrar sesión</MenuItem>
                               </MenuList>

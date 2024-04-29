@@ -45,7 +45,8 @@ const App = () => {
                 <Route path="/pets/mypets/:id" element={<MyPets />} />
                 <Route path="/pets/:id" element={<PetProfile />} />
                 <Route path="/pets/new" element={<AddPet />} />
-                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/user/profile" element={<ProfilePage />} />
+                <Route path="/user/edit/:id" element={<ProfilePage />} />
                 <Route path="/reservations/new" element={<ReservationForm />} />
                 <Route path="/reservations" element={<MyReservations />} />
               </Route>

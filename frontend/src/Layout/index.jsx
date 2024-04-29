@@ -7,24 +7,27 @@ import NavBar from '../Components/NavBar';
 
 const Layout = ({ children }) => {
     return (
-        <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-        >
-            <NavBar/>
-            <Container maxWidth="100%" style={{
-                display: "flex",
-                flexDirection: "column", 
-                alignItems: "center", 
-                justifyContent: "center",
-                marginTop: "1em",
-            }}>
-                {children}
-            </Container>
-        </Grid>
-
+        <>
+            <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="flex-start"
+                height={"100vh"}
+                backgroundColor="#AF5B5B"
+                paddingTop={"1em"}
+            >
+                <NavBar/>
+                <Container maxWidth="100%" sx={{
+                    display: "flex",
+                    flexDirection: "column", 
+                    alignItems: "center", 
+                    justifyContent: "flex",
+                }}>
+                    {children}
+                </Container>
+            </Grid>
+        </>
 
     );
 }

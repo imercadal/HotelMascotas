@@ -11,12 +11,14 @@ import {
     TableContainer,
     TableBody,
     Button,
-    Typography
+    Typography,
+    Paper,
+    CircularProgress
 } from '@mui/material';
 
 
 const MyPets = () => {
-    const { getAllPets, pets } = usePets();
+    const { getAllPets, pets, isLoading } = usePets();
     const { isAuthenticated, user } = useContext(AuthContext);
     const navigate = useNavigate();
     const [myPets, setMyPets] = useState([]);
@@ -46,7 +48,20 @@ const MyPets = () => {
     
     return (
         <Layout>
+            <Paper elevation={5} sx={{
+                padding: 5,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "flex-start",
+            
+            }}>
+
             <Typography variant='h2'>My Pets</Typography>
+            { isLoading ? (
+                <CircularProgress /> 
+            ) : (
+                <>
             {pets.length === 0 && <Typography variant='h6'>(No hay mascotas)</Typography>}
             <Button
                 onClick={() => newPet()}
@@ -95,6 +110,9 @@ const MyPets = () => {
                 </TableBody>
             </Table>
             </TableContainer>
+                </>
+            )}
+            </Paper>
         </Layout>
     );
 };
