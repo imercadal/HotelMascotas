@@ -3,6 +3,7 @@ import { AuthContext } from '../../../Context/AuthContext';
 import { useReservations } from '../../../Context/ReservationsContext';
 import Layout from '../../../Layout';
 import { useNavigate } from 'react-router-dom';
+import { formatDate } from '../../../Helpers/helpers';
 import {
     Table,
     TableHead,
@@ -74,8 +75,8 @@ const MyReservations = () => {
                     return (
                         <tr key={reservation.id}>
                             <TableCell>{reservation.reservationPet}</TableCell>
-                            <TableCell>{reservation.checkInDate}</TableCell>
-                            <TableCell>{reservation.checkOutDate}</TableCell>
+                            <TableCell>{formatDate(`${reservation.checkInDate}`)}</TableCell>
+                            <TableCell>{formatDate(`${reservation.checkOutDate}`)}</TableCell>
                             <TableCell>$ {reservation.amountDue}</TableCell>
                             <TableCell>{reservation.reservationNotes}</TableCell>
                             <TableCell>
