@@ -26,7 +26,7 @@ const createReservation = async (req, res) => {
     
         const newReservation = new Reservation({
             reservationClient,
-            reservationPet,
+            reservationPet: reservationPet,
             reservationNotes,
             checkInDate,
             checkOutDate,

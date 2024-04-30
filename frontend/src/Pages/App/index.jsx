@@ -22,6 +22,7 @@ import MyPets from "../Pets/MyPets";
 import PetProfile from "../Pets/PetProfile";
 import ReservationForm from "../Reservations/ReservationForm";
 import MyReservations from "../Reservations/MyReservations";
+import EditReservation from "../Reservations/EditReservation";
 
 //Importando protección de rutas.
 import ProtectedRoute from "../../Components/ProtectedRoute/index.jsx";
@@ -49,6 +50,7 @@ const App = () => {
                 <Route path="/user/edit/:id" element={<ProfilePage />} />
                 <Route path="/reservations/new" element={<ReservationForm />} />
                 <Route path="/reservations" element={<MyReservations />} />
+                <Route path="/reservations/:id" element={<EditReservation />} />
               </Route>
 
             </Routes>

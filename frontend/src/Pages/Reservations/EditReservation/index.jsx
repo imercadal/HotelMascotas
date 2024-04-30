@@ -22,7 +22,7 @@ import {
 
 const CreateReservation = () => {
     const { register, handleSubmit } = useForm();
-    const { createReservation } = useReservations();
+    const { updateReservation } = useReservations();
     const navigate = useNavigate();
 
     const { isAuthenticated, user } = useContext(AuthContext);
@@ -74,8 +74,8 @@ const CreateReservation = () => {
                 reservationClient: user.id,
                 rate: mostRecentRate._id
             };
-            await createReservation(reservationData);
-            alert("Reservation created successfully");
+            await updateReservation(reservationData);
+            alert("Reservation updated successfully");
             navigate("/reservations");
             
         } catch (error) {
@@ -107,7 +107,7 @@ const CreateReservation = () => {
                 }}
                 >
                 <Typography component="h1" variant="h5">
-                    Make a reservation
+                    Edit your reservation
                 </Typography>
                 <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
 

@@ -29,6 +29,7 @@ const MyReservations = () => {
 
     useEffect(() => {
         getAllReservations();
+        console.log(reservations)
     }, []);
 
     useEffect(() => {
@@ -48,7 +49,6 @@ const MyReservations = () => {
                 return acc;
             }, {});
             setPetData(petDataMap);
-            console.log('petDataMap:', petDataMap)
         };
     
         if (myReservations.length > 0) {
@@ -58,7 +58,7 @@ const MyReservations = () => {
     }, [myReservations]);
 
     const goToEdit = (reservationId) => {
-        navigate(`/reservations/${reservationId}/edit`);
+        navigate(`/reservations/${reservationId}`);
     };
     
     const handleDelete = async(reservationId) => {
@@ -119,7 +119,7 @@ const MyReservations = () => {
                                 Edit
                             </Button>
                             <label> | </label>
-                            <Button onClick={ handleDelete } sx={{ color: "#F03A47" }}>
+                            <Button onClick={ () => handleDelete(reservation._id) } sx={{ color: "#F03A47" }}>
                                 Delete
                             </Button>
                             </TableCell>
